@@ -1,0 +1,31 @@
+.app-mobile{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.app-mobile p{
+    font-size: max(3vw,20px);
+}
+
+.app-mobile p:nth-child(2){
+    margin-left: 200px;
+ }
+
+.app-download-plateform{
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.app-download-plateform img:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.app-download-plateform img:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}

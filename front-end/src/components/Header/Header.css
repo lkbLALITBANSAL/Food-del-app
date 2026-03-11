@@ -1,0 +1,108 @@
+.header{
+    height: 35vw;
+    margin-top: 20px;
+    width: 800px;
+    margin-left: 200px;
+    background: url('/food-banner.jpg') no-repeat;
+    background-size: contain;
+    position: relative;
+}
+
+/* Header text block */
+.header-content{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5vw;
+    max-width: 50%;
+    bottom: 10%;
+    left: 6vw;
+    animation: fadeIn 2s ;
+}
+
+.header-content button{
+    cursor: pointer;
+}
+
+.header-content h2{
+    font-weight: 500;
+    color: white;
+    font-size: max(4.5vw,22px);
+}
+
+.header-content p{
+    color: white;
+    font-size: 1vw;
+}
+
+.header-content button{
+    border: none;
+    color: #747474;
+    font-weight: 500;
+    padding: 10px 20px;
+    background-color: white;
+    font-size: max(1vw,13px);
+    border-radius: 50px;
+}
+
+/* ===================== */
+/* RESPONSIVE SECTION */
+/* ===================== */
+
+@media (max-width: 1050px) {
+    .header{
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 38vw;
+    }
+
+    .header-content{
+        max-width: 55%;
+    }
+}
+
+@media (max-width: 750px) {
+    .header{
+        width: 95%;
+        height: 50vw;
+        background-size: cover;
+    }
+
+    .header-content{
+        max-width: 70%;
+        gap: 12px;
+        left: 5vw;
+        bottom: 8%;
+    }
+
+    .header-content p{
+        display: none;
+    }
+
+    .header-content h2{
+        font-size: 24px;
+    }
+
+    .header-content button{
+        padding: 8px 18px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header{
+        height: 65vw;
+    }
+
+    .header-content{
+        max-width: 90%;
+        left: 4vw;
+        bottom: 6%;
+    }
+
+    .header-content h2{
+        font-size: 20px;
+    }
+}
