@@ -10,8 +10,6 @@ The project also includes an **Admin Panel** to manage food items and orders.
 **User Website**
 [Open Website](https://food-del-app-lilac.vercel.app)
 
-**Backend API**
-[Open Backend API](https://food-del-app-dbx7.onrender.com)
 
 ---
 
