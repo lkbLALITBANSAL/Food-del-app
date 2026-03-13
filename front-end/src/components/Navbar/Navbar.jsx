@@ -1,55 +1,84 @@
-import React, { useContext } from 'react'
-import { useState } from 'react'
-import { assets } from '../../assets/assets'
-import './navbar.css'
-import { Link, useNavigate } from 'react-router-dom'
-import { StoreContext } from '../../context/StoreContext'
+import React, { useContext, useState } from "react";
+import { assets } from "../../assets/assets";
+import "./navbar.css";
+import { Link, useNavigate } from "react-router-dom";
+import { StoreContext } from "../../context/StoreContext";
 
-const Navbar = ({setshowLogin}) => {
-    const [menu, setmenu] = useState("menu");
-    const {getTotalAmount,token,settoken}=useContext(StoreContext)
+const Navbar = ({ setshowLogin }) => {
 
-    const navigate=useNavigate()
+  const [menu, setmenu] = useState("Home");
 
-    const logout=()=>{
-      localStorage.removeItem("token");
-      settoken("")
-      navigate('/')
-    }
+  const { getTotalAmount, token, settoken } = useContext(StoreContext);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    settoken("");
+    navigate("/");
+  };
+
   return (
-    <div className='navbar'>
+    <div className="navbar-wrapper">
 
-    <Link to={'/'}> <img src={assets.logo} alt="" width={200} height={60} className='main-logo'/></Link> 
+      <div className="navbar">
 
-      <ul className="navbar-menu">
-        <Link to={'/'} onClick={()=>{setmenu("Home")}} className={menu=="Home"?"Active":""}>Home</Link>
-        <a   href='#explore-menu'   onClick={()=>{setmenu("menu")}} className={menu=="menu"?"Active":""}>menu</a>
-        <a   href='#app-mobile'   onClick={()=>{setmenu("mobile-app")}} className={menu=="mobile-app"?"Active":""}>mobile-app</a>
-        <a   href='#footer'   onClick={()=>{setmenu("Contact-us")}} className={menu=="Contact-us"?"Active":""}>Contact us</a>
-      </ul>
+        <Link to={"/"}>
+          <img src={assets.logo} alt="" className="main-logo" />
+        </Link>
 
-      <div className="navbar-right">
-        {/* <img src={assets.search} alt="" width={20} /> */}
+        <ul className="navbar-menu">
+          <Link to={"/"} onClick={()=>setmenu("Home")} className={menu==="Home"?"Active":""}>Home</Link>
+          <a href="#explore-menu" onClick={()=>setmenu("Menu")} className={menu==="Menu"?"Active":""}>Menu</a>
+          <a href="#app-mobile" onClick={()=>setmenu("Mobile")} className={menu==="Mobile"?"Active":""}>Mobile App</a>
+          <a href="#footer" onClick={()=>setmenu("Contact")} className={menu==="Contact"?"Active":""}>Contact</a>
+        </ul>
 
-        <div className="navbar-search-icon">
-           <Link to={'/cart'}> <img src={assets.cart} alt="" width={30}/></Link> 
-            {/* show dot when there is something add in basket  */}
-           <div className={getTotalAmount()===0 ?"":"dot"}></div>
+        <div className="navbar-right">
+
+          {/* CART */}
+          <div className="cart-btn">
+            <Link to={"/cart"}>
+              <img src={assets.cart} alt="" />
+            </Link>
+            <div className={getTotalAmount()===0 ? "" : "dot"}></div>
+          </div>
+
+          {!token ? (
+            <button className="signin-btn" onClick={()=>setshowLogin(true)}>
+              Sign In
+            </button>
+          ) : (
+
+            <div className="navbar-profile">
+
+              <img src={assets.profile} alt="" />
+
+              <ul className="nav-profile-dropdown">
+
+                <li onClick={()=>navigate('/myorders')}>
+                  <img src={assets.orders} alt="" />
+                  <p>Orders</p>
+                </li>
+
+                <hr/>
+
+                <li onClick={logout}>
+                  <img src={assets.logout} alt="" />
+                  <p>Logout</p>
+                </li>
+
+              </ul>
+
+            </div>
+
+          )}
+
         </div>
 
-       {!token ?<button onClick={()=>setshowLogin(true)}>Sign in</button>:
-        <div className='navbar-profile'>
-          <img width={40} src={assets.profile} alt="" />
-          <ul className="nav-profile-dropdown">
-            <li onClick={()=>{navigate('/myorders')}}><img width={20} src={assets.orders} alt="" /><p>orders</p></li>
-            <hr/>
-            <li onClick={logout}> <img width={20} src={assets.logout} alt="" /> <p>logout</p></li>
-          </ul>
-        </div> } 
       </div>
-      
-    </div>
-  )
-}
 
-export default Navbar
+    </div>
+  );
+};
+
+export default Navbar;

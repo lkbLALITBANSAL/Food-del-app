@@ -5,8 +5,22 @@ import { assets } from '../../assets/assets'
 const Navbar = () => {
   return (
     <div className='navbar'>
-      <img width={150} src={assets.logo} alt="" className="logo" />
-      <div className="profile-image"></div>
+
+      <div className="navbar-left">
+        <img src={assets.logo} alt="logo" className="logo" />
+      </div>
+
+      <div className="navbar-center">
+        <h2>Welcome Admin 👋</h2>
+        <p>Manage your food delivery dashboard</p>
+      </div>
+
+      <div className="navbar-right">
+        <div className="profile-image">
+          <img className='admin-photo' src={assets.user} alt="admin" />
+        </div>
+      </div>
+
     </div>
   )
 }
