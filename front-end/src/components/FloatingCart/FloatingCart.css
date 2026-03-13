@@ -23,6 +23,7 @@
     cursor:pointer;
 
     animation:slideUp 0.3s ease;
+    z-index: 2000;
 }
 
 .floating-cart button{
