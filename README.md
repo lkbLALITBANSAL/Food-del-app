@@ -67,8 +67,4 @@ The project also includes an **Admin Panel** to manage food items and orders.
 GitHub
 https://github.com/lkbLALITBANSAL
 
-LeetCode
-https://leetcode.com/u/bansal_lalit_kumar/
 
-Codeforces
-https://codeforces.com/profile/L_K_B
