@@ -14,7 +14,7 @@ export const StoreContextProvider = (props) => {
   //from backend fetch in this list
   const [food_list, setfood_list] = useState([]); 
 
-  const url="http://localhost:4000"
+ const url = import.meta.env.VITE_API_URL || "http://localhost:4000"
 
   const addtocart= async(itemId)=>{
     console.log("ADD TO CART:", itemId);
