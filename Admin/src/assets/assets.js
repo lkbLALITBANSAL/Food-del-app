@@ -1,4 +1,4 @@
-import logo from './EatZo.png'
+import logo from './EatZO.png'
 import bar from './bars-solid-full.svg'
 import plus from './circle-plus-solid-full.svg'
 import list from './list-check-solid-full.svg'
