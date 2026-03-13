@@ -5,9 +5,9 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "server.js",
+  "main": "server.js", 
   "scripts": {
-    "server":"nodemon server.js"
+    "server":"nodemon server.js" 
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

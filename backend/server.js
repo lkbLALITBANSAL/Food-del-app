@@ -8,7 +8,7 @@ import cartRouter from './routes/cartRoutes.js'
 import orderRouter from './routes/orderRoutes.js'
  
 //app config
-const app=express()
+const app=express() 
 const port=4000
      
 //middleware
