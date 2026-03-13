@@ -38,6 +38,13 @@
     cursor:pointer;
 }
 
+/* hover effect */
+.floating-cart:hover{
+    transform:translateX(-50%) scale(1.02);
+}
+
+/* animation */
+
 @keyframes slideUp{
 
     from{

@@ -9,16 +9,16 @@ const FloatingCart = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const itemCount = Object.values(carditem).reduce((a,b)=>a+b,0);
+  const itemCount = Object.values(carditem).reduce((a, b) => a + b, 0);
 
   /* Hide if no items */
-  if(itemCount === 0) return null;
+  if (itemCount === 0) return null;
 
-  /* Hide on cart page */
-  if(location.pathname === "/cart") return null;
+  /* Show ONLY on homepage */
+  if (location.pathname !== "/") return null;
 
   return (
-    <div className="floating-cart" onClick={()=>navigate('/cart')}>
+    <div className="floating-cart" onClick={() => navigate("/cart")}>
       <span>{itemCount} item(s)</span>
       <span>₹{getTotalAmount()}</span>
       <button>View Cart →</button>
