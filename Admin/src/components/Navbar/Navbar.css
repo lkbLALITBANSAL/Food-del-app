@@ -46,3 +46,30 @@
     height:100%;
     object-fit:cover;
 }
+
+/* mobile */
+
+@media (max-width:750px){
+
+.navbar{
+    padding:12px 5%;
+}
+
+.logo{
+    width:120px;
+}
+
+.navbar-center h2{
+    font-size:16px;
+}
+
+.navbar-center p{
+    font-size:11px;
+}
+
+.profile-image{
+    width:40px;
+    height:40px;
+}
+
+}
