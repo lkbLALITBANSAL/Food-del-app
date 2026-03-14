@@ -22,6 +22,16 @@ const LoginPopup = ({ setshowLogin }) => {
      setdata(data=>({...data,[name]:value}));
   }
 
+  const changeState = (state) => {
+  setcurrState(state);
+  setdata({
+    name: "",
+    email: "",
+    password: ""
+  });
+  setError("");
+};
+
   //  useEffect(() => {
   //    console.log(data)
   //  }, [data])
@@ -85,9 +95,9 @@ const LoginPopup = ({ setshowLogin }) => {
         </div>
 
         {currState === "Login" ? (
-          <p>Create new account? <span onClick={() => setcurrState("Sign up")}>Click here</span></p>
+          <p>Create new account? <span onClick={() => changeState("Sign up")}>Click here</span></p>
         ) : (
-          <p>Already have an account? <span onClick={() => setcurrState("Login")}>Login here</span></p>
+          <p>Already have an account? <span onClick={() => changeState("Login")}>Login here</span></p>
         )}
 
       </form>
