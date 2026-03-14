@@ -8,6 +8,8 @@ import axios from "axios"
 const LoginPopup = ({ setshowLogin }) => {
      const {url,settoken}=useContext(StoreContext)  
   const [currState, setcurrState] = useState("Sign up")
+  const [error, setError] = useState("")
+
   const [data, setdata] = useState({
     name:"",
     email:"",
@@ -24,27 +26,27 @@ const LoginPopup = ({ setshowLogin }) => {
   //    console.log(data)
   //  }, [data])
    
-   const onLogin=async(e)=>{
-   e.preventDefault()
+  const onLogin = async (e) => {
+  e.preventDefault()
 
+  let newurl = url
 
-     let newurl=url;
-     if (currState === "Login"){
-      newurl+='/api/user/login'
-     }else{
-      newurl+='/api/user/register'
-     }
+  if (currState === "Login") {
+    newurl += "/api/user/login"
+  } else {
+    newurl += "/api/user/register"
+  }
 
-     const response=await axios.post(newurl,data);
+  const response = await axios.post(newurl, data)
 
-     if(response.data.success){
-       settoken(response.data.token);
-       localStorage.setItem("token",response.data.token)
-       setshowLogin(false)
-     }else{
-      alert(response.data.message)
-     }
-   } 
+  if (response.data.success) {
+    settoken(response.data.token)
+    localStorage.setItem("token", response.data.token)
+    setshowLogin(false)
+  } else {
+    setError(response.data.message)
+  }
+}
 
   return (
     <div className='login-popup'>
@@ -69,6 +71,8 @@ const LoginPopup = ({ setshowLogin }) => {
           )}
           <input type="email" name='email' onChange={onChangeHandler} value={data.email} placeholder="Your email" required />
           <input type="password" name='password' onChange={onChangeHandler} value={data.password} placeholder="Your password" required />
+
+          {error && <p className="login-error">{error}</p>}
         </div>
 
         <button type='submit'>
