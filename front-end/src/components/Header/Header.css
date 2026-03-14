@@ -1,5 +1,6 @@
 .header{
-    height:35vw;
+    min-height:420px;
+height:35vw;
     margin:20px auto;
     width:90%;
     background:url('/food-banner.jpg') no-repeat center;
@@ -63,4 +64,81 @@
 
 .secondary-btn:hover{
     background:#e0432a;
+}
+
+/* ================= RESPONSIVE HEADER ================= */
+
+@media (max-width:1050px){
+
+.header{
+    height:45vw;
+}
+
+.header-content{
+    max-width:55%;
+}
+
+.header-content h2{
+    font-size:34px;
+}
+
+}
+
+@media (max-width:750px){
+
+.header{
+    height:60vw;
+}
+
+.header-content{
+    max-width:70%;
+    margin-left:30px;
+}
+
+.header-content h2{
+    font-size:28px;
+}
+
+.header-content p{
+    font-size:14px;
+}
+
+.primary-btn,
+.secondary-btn{
+    padding:8px 18px;
+    font-size:14px;
+}
+
+}
+
+@media (max-width:480px){
+
+.header{
+    height:80vw;
+}
+
+.header-content{
+    max-width:90%;
+    margin-left:20px;
+}
+
+.header-content h2{
+    font-size:22px;
+}
+
+.header-content p{
+    font-size:13px;
+}
+
+.header-buttons{
+    flex-direction:column;
+    gap:10px;
+    width:160px;
+}
+
+.primary-btn,
+.secondary-btn{
+    width:100%;
+}
+
 }

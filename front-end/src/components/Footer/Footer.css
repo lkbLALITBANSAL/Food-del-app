@@ -110,3 +110,67 @@
     align-items: center;
   }
 }
+
+/* ================= EXTRA FOOTER RESPONSIVE ================= */
+
+@media (max-width:750px){
+
+.footer{
+    padding:35px 6vw 10px;
+    gap:18px;
+}
+
+.footer-content{
+    gap:22px;
+}
+
+.footer-content-left p{
+    font-size:14px;
+}
+
+.footer-content-centre h2,
+.footer-content-right h2{
+    font-size:18px;
+}
+
+.footer-content-centre li,
+.footer-content-right li{
+    font-size:14px;
+}
+
+.social-icons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+}
+
+.social-icons img{
+    width:40px;
+}
+
+}
+
+@media (max-width:450px){
+
+.footer{
+    margin-top:80px;
+}
+
+.footer-logo{
+    width:150px;
+}
+
+.footer-content-left p{
+    font-size:13px;
+}
+
+.footer-copyright{
+    font-size:12px;
+    text-align:center;
+}
+
+.social-icons img{
+    width:35px;
+}
+
+}

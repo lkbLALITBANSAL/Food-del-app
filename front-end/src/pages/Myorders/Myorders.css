@@ -1,12 +1,13 @@
 .my-orders {
-  margin: 50px 10px;
+  margin: 60px auto;
+  max-width: 1000px;
+  padding: 0 20px;
 }
 
 .my-orders h2 {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 600;
 }
-
 
 .my-orders .container {
   display: flex;
@@ -15,10 +16,9 @@
   margin-top: 30px;
 }
 
-
 .my-orders-order {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr auto;
   align-items: center;
   gap: 20px;
   font-size: 14px;
@@ -29,18 +29,15 @@
   background-color: #fff;
 }
 
-
 .my-orders-order p {
   margin: 0;
   line-height: 1.4;
 }
 
-
 .my-orders-order span {
   color: tomato;
   margin-right: 6px;
 }
-
 
 .my-orders-order p b {
   font-weight: 500;
@@ -49,7 +46,7 @@
 
 .my-orders-order button {
   border: none;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-radius: 4px;
   background-color: #ffe1e1;
   cursor: pointer;
@@ -62,16 +59,18 @@
   background-color: #ffcccc;
 }
 
-@media (max-width: 900px) {
+/* simple mobile adjustment */
+
+@media (max-width: 768px) {
+
   .my-orders-order {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    font-size: 12px;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    font-size: 13px;
   }
 
   .my-orders-order button {
-    grid-column: span 2;
-    font-size: 11px;
-    padding: 8px;
+    width: fit-content;
   }
+
 }

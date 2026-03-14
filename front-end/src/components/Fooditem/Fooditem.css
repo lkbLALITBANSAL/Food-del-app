@@ -85,3 +85,78 @@
     font-weight:600;
     color:tomato;
 }
+
+/* ================= FOOD ITEM RESPONSIVE ================= */
+
+@media (max-width:900px){
+
+.food-item-img-container{
+    height:210px;
+}
+
+.food-item-name{
+    font-size:16px;
+}
+
+.food-item-desc{
+    font-size:13px;
+}
+
+.food-item-price{
+    font-size:16px;
+}
+
+}
+
+@media (max-width:600px){
+
+.food-item-img-container{
+    height:180px;
+}
+
+.food-item-info{
+    padding:12px;
+}
+
+.circle-plus{
+    width:30px;
+}
+
+.counter img{
+    width:22px;
+}
+
+.counter{
+    gap:8px;
+    padding:4px 8px;
+}
+
+}
+
+@media (max-width:400px){
+
+.food-item-img-container{
+    height:150px;
+}
+
+.food-item-name{
+    font-size:14px;
+}
+
+.food-item-desc{
+    font-size:12px;
+}
+
+.food-item-price{
+    font-size:14px;
+}
+
+}
+
+.food-item-image{
+    transition:0.3s;
+}
+
+.food-item:hover .food-item-image{
+    transform:scale(1.05);
+}

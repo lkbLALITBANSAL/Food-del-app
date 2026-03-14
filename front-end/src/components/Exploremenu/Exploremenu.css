@@ -127,3 +127,97 @@
     font-size: 13px;
   }
 }
+
+/* ================= EXTRA RESPONSIVE IMPROVEMENTS ================= */
+
+@media (max-width:1200px){
+
+.explore-menu h1,
+.explore-menu p{
+  margin-left:80px;
+}
+
+.explore-menu-list{
+  padding:20px 80px;
+}
+
+.explore-menu hr{
+  margin:10px 80px;
+}
+
+}
+
+@media (max-width:900px){
+
+.explore-menu h1{
+  font-size:26px;
+}
+
+.explore-menu p{
+  font-size:14px;
+}
+
+.card{
+  min-width:120px;
+}
+
+.card img{
+  width:110px;
+  height:110px;
+}
+
+}
+
+@media (max-width:600px){
+
+.explore-menu h1{
+  font-size:22px;
+}
+
+.explore-menu p{
+  font-size:13px;
+}
+
+.explore-menu-list{
+  gap:14px;
+}
+
+.card{
+  min-width:100px;
+}
+
+.card img{
+  width:90px;
+  height:90px;
+}
+
+.card p{
+  font-size:13px;
+}
+
+}
+
+@media (max-width:400px){
+
+.explore-menu h1{
+  font-size:20px;
+}
+
+.explore-menu p{
+  font-size:12px;
+}
+
+.card{
+  min-width:85px;
+}
+
+.card img{
+  width:80px;
+  height:80px;
+}
+
+.card p{
+  font-size:12px;
+}
+
+}

@@ -47,3 +47,59 @@
     }
 
 }
+/* ================= EXTRA RESPONSIVE IMPROVEMENTS ================= */
+
+@media (max-width:1200px){
+
+.food-display h2{
+    margin-left:60px;
+    font-size:28px;
+}
+
+.food-display-list{
+    padding:0 60px;
+}
+
+}
+
+@media (max-width:900px){
+
+.food-display h2{
+    margin-left:40px;
+    font-size:26px;
+}
+
+.food-display-list{
+    padding:0 40px;
+    grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+}
+
+}
+
+@media (max-width:600px){
+
+.food-display h2{
+    margin-left:20px;
+    font-size:22px;
+}
+
+.food-display-list{
+    padding:0 20px;
+    grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+    gap:18px;
+}
+
+}
+
+@media (max-width:400px){
+
+.food-display h2{
+    font-size:20px;
+}
+
+.food-display-list{
+    grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+    gap:15px;
+}
+
+}

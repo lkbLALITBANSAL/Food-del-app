@@ -29,3 +29,61 @@
     transform: scale(1.05);
     cursor: pointer;
 }
+
+/* ================= RESPONSIVE APP MOBILE ================= */
+
+@media (max-width:1050px){
+
+.app-mobile p{
+    font-size:28px;
+}
+
+.app-mobile p:nth-child(2){
+    margin-left:120px;
+}
+
+.app-download-plateform{
+    gap:30px;
+}
+
+}
+
+@media (max-width:750px){
+
+.app-mobile p{
+    font-size:22px;
+    text-align:center;
+}
+
+.app-mobile p:nth-child(2){
+    margin-left:0;
+}
+
+.app-download-plateform{
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+}
+
+.app-download-plateform img{
+    width:160px;
+}
+
+}
+
+@media (max-width:480px){
+
+.app-mobile{
+    margin-top:40px;
+    gap:15px;
+}
+
+.app-mobile p{
+    font-size:18px;
+}
+
+.app-download-plateform img{
+    width:140px;
+}
+
+}

@@ -192,3 +192,88 @@
         transform:translateY(0);
     }
 }
+
+/* ================= RESPONSIVE NAVBAR ================= */
+
+@media (max-width:1050px){
+
+.navbar{
+    width:90%;
+}
+
+.main-logo{
+    width:150px;
+}
+
+.navbar-menu{
+    gap:25px;
+    font-size:16px;
+}
+
+}
+
+@media (max-width:750px){
+
+.navbar-menu{
+    display:none;
+}
+
+.navbar{
+    padding:14px 0;
+}
+
+.main-logo{
+    width:140px;
+}
+
+.signin-btn{
+    padding:8px 18px;
+    font-size:14px;
+}
+
+.cart-btn{
+    width:48px;
+    height:48px;
+}
+
+.cart-btn img{
+    width:24px;
+}
+
+.navbar-profile img{
+    width:48px;
+    height:48px;
+}
+
+}
+
+@media (max-width:480px){
+
+.navbar{
+    width:94%;
+}
+
+.main-logo{
+    width:120px;
+}
+
+.signin-btn{
+    padding:7px 16px;
+    font-size:13px;
+}
+
+.cart-btn{
+    width:42px;
+    height:42px;
+}
+
+.cart-btn img{
+    width:20px;
+}
+
+.navbar-profile img{
+    width:42px;
+    height:42px;
+}
+
+}
