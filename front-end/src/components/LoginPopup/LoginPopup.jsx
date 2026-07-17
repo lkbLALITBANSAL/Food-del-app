@@ -3,6 +3,7 @@ import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { GoogleLogin } from "@react-oauth/google";
 
 const LoginPopup = ({ setshowLogin }) => {
   const { url, settoken } = useContext(StoreContext);
@@ -257,6 +258,34 @@ const LoginPopup = ({ setshowLogin }) => {
     }
   };
 
+  const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    const response = await axios.post(
+      url + "/api/user/google-login",
+      {
+        credential: credentialResponse.credential,
+      }
+    );
+
+    if (response.data.success) {
+      localStorage.setItem("token", response.data.token);
+
+      settoken(response.data.token);
+
+      setshowLogin(false);
+    } else {
+      setError(response.data.message);
+    }
+  } catch (error) {
+    console.log(error);
+
+    setError("Google Login Failed.");
+  }
+};
+
+const handleGoogleError = () => {
+  console.log("Google Login Failed");
+};
   const closePopup = () => {
     resetForm();
 
@@ -472,6 +501,15 @@ const LoginPopup = ({ setshowLogin }) => {
                 ? "Login"
                 : "Create Account"}
             </button>
+
+           <div className="google-divider">
+  <span>OR</span>
+</div>
+
+<GoogleLogin
+  onSuccess={handleGoogleSuccess}
+  onError={handleGoogleError}
+/>
 
             {currState === "Sign up" && (
 
