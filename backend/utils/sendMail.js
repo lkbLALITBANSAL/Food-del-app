@@ -1,50 +1,54 @@
-import * as Brevo from "@getbrevo/brevo";
-
-const apiInstance = new Brevo.TransactionalEmailsApi();
-
-apiInstance.setApiKey(
-  Brevo.TransactionalEmailsApiApiKeys.apiKey,
-  process.env.BREVO_API_KEY
-);
-
 const sendOTP = async (email, name, otp) => {
-  try {
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
+    try {
+        console.log("📨 Sending OTP to:", email);
 
-    sendSmtpEmail.sender = {
-      name: "Food Delivery Team 🍔",
-      email: "bansallalit8322@gmail.com",
-    };
+        const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+            method: "POST",
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": process.env.BREVO_API_KEY,
+            },
+            body: JSON.stringify({
+                sender: {
+                    name: "Food Delivery Team 🍔",
+                    email: "bansallalit8322@gmail.com"
+                },
+                to: [
+                    {
+                        email: email,
+                        name: name
+                    }
+                ],
+                subject: "Verify Your Food Delivery Account",
+                htmlContent: `
+                    <h2>Hello ${name},</h2>
+                    <p>Your OTP is:</p>
+                    <h1 style="color:#ff6347">${otp}</h1>
+                    <p>This OTP is valid for <b>5 minutes</b>.</p>
+                `
+            })
+        });
 
-    sendSmtpEmail.to = [
-      {
-        email,
-        name,
-      },
-    ];
+        const data = await response.json();
 
-    sendSmtpEmail.subject = "Verify Your Food Delivery Account";
+        if (!response.ok) {
+            console.log("❌ Brevo API Error");
+            console.log(data);
+            return false;
+        }
 
-    sendSmtpEmail.htmlContent = `
-      <h2>Hello ${name},</h2>
-      <p>Your OTP is:</p>
-      <h1>${otp}</h1>
-      <p>This OTP is valid for 5 minutes.</p>
-    `;
+        console.log("✅ Email Sent Successfully");
+        console.log(data);
 
-    console.log("📨 Sending OTP to:", email);
+        return true;
 
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    } catch (error) {
+        console.log("❌ Email Error");
+        console.log(error);
 
-    console.log("✅ Email Sent Successfully");
-
-    return true;
-  } catch (error) {
-    console.log("❌ Email Error");
-    console.log(error.response?.body || error);
-
-    return false;
-  }
+        return false;
+    }
 };
 
 export default sendOTP;
