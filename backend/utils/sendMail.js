@@ -1,87 +1,50 @@
-import Brevo from "@getbrevo/brevo";
+import * as Brevo from "@getbrevo/brevo";
 
 const apiInstance = new Brevo.TransactionalEmailsApi();
 
 apiInstance.setApiKey(
-    Brevo.TransactionalEmailsApiApiKeys.apiKey,
-    process.env.BREVO_API_KEY
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
 );
 
 const sendOTP = async (email, name, otp) => {
-    try {
+  try {
+    const sendSmtpEmail = new Brevo.SendSmtpEmail();
 
-        const sendSmtpEmail = {
-            sender: {
-                name: "Food Delivery Team 🍔",
-                email: "bansallalit8322@gmail.com"
-            },
+    sendSmtpEmail.sender = {
+      name: "Food Delivery Team 🍔",
+      email: "bansallalit8322@gmail.com",
+    };
 
-            to: [
-                {
-                    email: email,
-                    name: name
-                }
-            ],
+    sendSmtpEmail.to = [
+      {
+        email,
+        name,
+      },
+    ];
 
-            subject: "Verify Your Food Delivery Account",
+    sendSmtpEmail.subject = "Verify Your Food Delivery Account";
 
-            htmlContent: `
-            <!DOCTYPE html>
-            <html>
-            <body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:40px;">
+    sendSmtpEmail.htmlContent = `
+      <h2>Hello ${name},</h2>
+      <p>Your OTP is:</p>
+      <h1>${otp}</h1>
+      <p>This OTP is valid for 5 minutes.</p>
+    `;
 
-            <div style="max-width:600px;margin:auto;background:#fff;border-radius:10px;padding:30px;">
+    console.log("📨 Sending OTP to:", email);
 
-            <h1 style="color:#ff6347;">🍔 Food Delivery</h1>
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
 
-            <h2>Hello ${name},</h2>
+    console.log("✅ Email Sent Successfully");
 
-            <p>Thank you for creating your account.</p>
+    return true;
+  } catch (error) {
+    console.log("❌ Email Error");
+    console.log(error.response?.body || error);
 
-            <p>Your OTP is:</p>
-
-            <div style="
-                text-align:center;
-                font-size:34px;
-                font-weight:bold;
-                color:#ff6347;
-                letter-spacing:8px;
-                margin:30px 0;
-            ">
-            ${otp}
-            </div>
-
-            <p>This OTP is valid for <b>5 minutes</b>.</p>
-
-            <hr>
-
-            <p style="color:#666">
-            If you didn't request this email, simply ignore it.
-            </p>
-
-            </div>
-
-            </body>
-            </html>
-            `
-        };
-
-        console.log("📨 Sending OTP to:", email);
-
-        await apiInstance.sendTransacEmail(sendSmtpEmail);
-
-        console.log("✅ Email Sent Successfully");
-
-        return true;
-
-    } catch (error) {
-
-        console.log("❌ Email Error");
-
-        console.log(error.response?.body || error);
-
-        return false;
-    }
+    return false;
+  }
 };
 
 export default sendOTP;
