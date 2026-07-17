@@ -104,10 +104,6 @@ const sendOTP = async (email, name, otp) => {
         };
 
       console.log("📨 Sending OTP to:", email);
-console.log("Verifying SMTP...");
-await transporter.verify();
-
-console.log("✅ SMTP Connected");
 
 const info = await transporter.sendMail(mailOptions);
 
