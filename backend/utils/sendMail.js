@@ -8,12 +8,15 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
 });
 
 const sendOTP = async (email, name, otp) => {
     try {
         const mailOptions = {
-            from: `"Food Delivery Team 🍔" <${process.env.EMAIL_USER}>`,
+            from: `"Food Delivery Team 🍔" <bansallalit8322@gmail.com>`,
             to: email,
             subject: "Verify Your Food Delivery Account",
 
