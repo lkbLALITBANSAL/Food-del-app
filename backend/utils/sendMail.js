@@ -1,123 +1,84 @@
-import nodemailer from "nodemailer";
+import Brevo from "@getbrevo/brevo";
 
-const transporter = nodemailer.createTransport({
-    host: "smtp-relay.brevo.com",
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-});
+const apiInstance = new Brevo.TransactionalEmailsApi();
+
+apiInstance.setApiKey(
+    Brevo.TransactionalEmailsApiApiKeys.apiKey,
+    process.env.BREVO_API_KEY
+);
 
 const sendOTP = async (email, name, otp) => {
     try {
-        const mailOptions = {
-            from: `"Food Delivery Team 🍔" <bansallalit8322@gmail.com>`,
-            to: email,
-            subject: "Verify Your Food Delivery Account",
 
-            headers: {
-                "X-Priority": "3",
-                "X-Mailer": "Food Delivery Authentication",
+        const sendSmtpEmail = {
+            sender: {
+                name: "Food Delivery Team 🍔",
+                email: "bansallalit8322@gmail.com"
             },
 
-            html: `
+            to: [
+                {
+                    email: email,
+                    name: name
+                }
+            ],
+
+            subject: "Verify Your Food Delivery Account",
+
+            htmlContent: `
             <!DOCTYPE html>
             <html>
-            <head>
-                <meta charset="UTF-8">
-            </head>
+            <body style="font-family:Arial,sans-serif;background:#f5f5f5;padding:40px;">
 
-            <body style="margin:0;padding:0;background:#f5f5f5;font-family:Arial,sans-serif;">
+            <div style="max-width:600px;margin:auto;background:#fff;border-radius:10px;padding:30px;">
 
-                <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
-                    <tr>
-                        <td align="center">
+            <h1 style="color:#ff6347;">🍔 Food Delivery</h1>
 
-                            <table width="600" cellpadding="0" cellspacing="0"
-                                style="background:#ffffff;border-radius:12px;overflow:hidden;">
+            <h2>Hello ${name},</h2>
 
-                                <tr>
-                                    <td style="background:#ff6347;color:white;padding:25px;text-align:center;font-size:28px;font-weight:bold;">
-                                        🍔 Food Delivery
-                                    </td>
-                                </tr>
+            <p>Thank you for creating your account.</p>
 
-                                <tr>
-                                    <td style="padding:35px;">
+            <p>Your OTP is:</p>
 
-                                        <h2 style="margin-top:0;color:#333;">
-                                            Hello ${name},
-                                        </h2>
+            <div style="
+                text-align:center;
+                font-size:34px;
+                font-weight:bold;
+                color:#ff6347;
+                letter-spacing:8px;
+                margin:30px 0;
+            ">
+            ${otp}
+            </div>
 
-                                        <p style="font-size:16px;color:#555;line-height:28px;">
-                                            Thank you for creating your account with
-                                            <strong>Food Delivery</strong>.
-                                        </p>
+            <p>This OTP is valid for <b>5 minutes</b>.</p>
 
-                                        <p style="font-size:16px;color:#555;">
-                                            Please use the verification code below:
-                                        </p>
+            <hr>
 
-                                        <div style="
-                                            text-align:center;
-                                            font-size:34px;
-                                            font-weight:bold;
-                                            letter-spacing:8px;
-                                            color:#ff6347;
-                                            margin:35px 0;
-                                        ">
-                                            ${otp}
-                                        </div>
+            <p style="color:#666">
+            If you didn't request this email, simply ignore it.
+            </p>
 
-                                        <p style="color:#555;font-size:15px;">
-                                            This OTP is valid for
-                                            <strong>5 minutes</strong>.
-                                        </p>
-
-                                        <hr style="border:none;border-top:1px solid #eee;margin:30px 0;">
-
-                                        <p style="font-size:14px;color:#888;line-height:24px;">
-                                            If you didn't create this account, you can safely ignore this email.
-                                        </p>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td style="background:#fafafa;padding:20px;text-align:center;color:#777;font-size:13px;">
-                                        © ${new Date().getFullYear()} Food Delivery <br>
-                                        Made with ❤️ using MERN Stack
-                                    </td>
-                                </tr>
-
-                            </table>
-
-                        </td>
-                    </tr>
-                </table>
+            </div>
 
             </body>
             </html>
-            `,
+            `
         };
 
-      console.log("📨 Sending OTP to:", email);
+        console.log("📨 Sending OTP to:", email);
 
-const info = await transporter.sendMail(mailOptions);
+        await apiInstance.sendTransacEmail(sendSmtpEmail);
 
         console.log("✅ Email Sent Successfully");
-        console.log(info.response);
 
         return true;
 
     } catch (error) {
+
         console.log("❌ Email Error");
-        console.log(error);
+
+        console.log(error.response?.body || error);
 
         return false;
     }
