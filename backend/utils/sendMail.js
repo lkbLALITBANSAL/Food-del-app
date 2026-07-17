@@ -8,6 +8,9 @@ const transporter = nodemailer.createTransport({
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
 });
 
 const sendOTP = async (email, name, otp) => {
@@ -104,8 +107,9 @@ const sendOTP = async (email, name, otp) => {
         };
 
       console.log("📨 Sending OTP to:", email);
-
+console.log("Verifying SMTP...");
 await transporter.verify();
+
 console.log("✅ SMTP Connected");
 
 const info = await transporter.sendMail(mailOptions);
