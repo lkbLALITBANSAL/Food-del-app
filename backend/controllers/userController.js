@@ -3,6 +3,9 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import sendOTP from "../utils/sendMail.js";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -261,9 +264,72 @@ const resendOTP = async (req, res) => {
   }
 };
 
+const googleLogin = async (req, res) => {
+  try {
+    const { credential } = req.body;
+
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+
+    const {
+      sub,
+      email,
+      name,
+      picture,
+      email_verified,
+    } = payload;
+
+    if (!email_verified) {
+      return res.json({
+        success: false,
+        message: "Google email not verified.",
+      });
+    }
+
+    let user = await userModel.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (!user) {
+      user = await userModel.create({
+        name,
+        email: email.toLowerCase(),
+        googleId: sub,
+        picture,
+        isVerified: true,
+      });
+    } else {
+      user.googleId = sub;
+      user.picture = picture;
+      user.isVerified = true;
+      await user.save();
+    }
+
+    const token = createToken(user._id);
+
+    res.json({
+      success: true,
+      token,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: "Google login failed.",
+    });
+  }
+};
+
 export {
   loginuser,
   registeruser,
   verifyOTP,
   resendOTP,
+  googleLogin,
 };
