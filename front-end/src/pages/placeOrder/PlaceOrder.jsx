@@ -6,14 +6,13 @@ import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 
-const PlaceOrder = () => {
+const PlaceOrder = ({setshowLogin}) => {
   const {
     getTotalAmount,
     token,
     food_list,
     carditem,
     url,
-    setShowLogin
   } = useContext(StoreContext)
 
   const [data, setdata] = useState({
@@ -48,7 +47,7 @@ const PlaceOrder = () => {
     // If the user is not logged in, open the login popup.
     if (!token) {
       setLoginMessage("Please log in to continue with your order.")
-      setShowLogin(true)
+      setshowLogin(true)
       return
     }
 

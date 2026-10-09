@@ -4,7 +4,7 @@ import './cart.css'
 import { StoreContext } from '../../context/StoreContext'
 import { useNavigate } from 'react-router-dom'
 
-const Cart = () => {
+const Cart = ({setshowLogin}) => {
   const {
     carditem,
     food_list,
@@ -12,27 +12,26 @@ const Cart = () => {
     getTotalAmount,
     url,
     token,
-    setShowLogin
   } = useContext(StoreContext)
 
   const navigate = useNavigate()
   const [loginMessage, setLoginMessage] = useState("")
 
   const handleCheckout = () => {
-    if (!token) {
-      setLoginMessage("Please log in to continue with checkout.")
-      setShowLogin(true)
-      return
-    }
-
-    if (getTotalAmount() === 0) {
-      setLoginMessage("Your cart is empty. Add some food before checkout.")
-      return
-    }
-
-    setLoginMessage("")
-    navigate('/order')
+  if (!token) {
+    setLoginMessage("Please log in to continue with checkout.");
+    setshowLogin(true);
+    return;
   }
+
+  if (getTotalAmount() === 0) {
+    setLoginMessage("Your cart is empty. Add some food before checkout.");
+    return;
+  }
+
+  setLoginMessage("");
+  navigate('/order');
+};
 
   return (
     <div className="cart">

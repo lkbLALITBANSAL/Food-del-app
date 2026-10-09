@@ -23,12 +23,21 @@ const App = () => {
     <div className='app'>
           <Navbar setshowLogin={setshowLogin}/>
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/cart' element={<Cart/>}/>
-        <Route path='/order' element={<PlaceOrder/>}/>
-        <Route path='/verify' element={<Verify/>} />
-        <Route path='/myorders' element={<Myorders/>}/>
-      </Routes>
+  <Route path='/' element={<Home />} />
+
+  <Route
+    path='/cart'
+    element={<Cart setshowLogin={setshowLogin} />}
+  />
+
+  <Route
+    path='/order'
+    element={<PlaceOrder setshowLogin={setshowLogin} />}
+  />
+
+  <Route path='/verify' element={<Verify />} />
+  <Route path='/myorders' element={<Myorders />} />
+</Routes>
       <FloatingCart/>
     </div>
       <Footer/>
