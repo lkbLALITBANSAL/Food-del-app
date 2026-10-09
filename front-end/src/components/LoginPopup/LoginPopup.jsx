@@ -105,7 +105,6 @@ const LoginPopup = ({ setshowLogin }) => {
     return true;
   };
 
-  // ================= LOGIN / SIGNUP =================
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -162,7 +161,6 @@ const LoginPopup = ({ setshowLogin }) => {
     setLoading(false);
   };
 
-  // ================= VERIFY OTP =================
 
   const verifyOTP = async () => {
     if (otp.length !== 6) {
@@ -197,7 +195,6 @@ const LoginPopup = ({ setshowLogin }) => {
     setLoading(false);
   };
 
-  // ================= RESEND OTP =================
 
   const resendOTP = async () => {
     try {
@@ -259,7 +256,6 @@ const LoginPopup = ({ setshowLogin }) => {
           />
         </div>
 
-        {/* ================= OTP SCREEN ================= */}
 
         {showOTP ? (
           <div className="otp-container">
