@@ -24,6 +24,7 @@ app.use(
     origin: [
       "http://localhost:5173",
       "https://food-del-app-lilac.vercel.app",
+      "https://food-del-app-exmc.vercel.app"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
