@@ -13,7 +13,6 @@ const createToken = (id) => {
   });
 };
 
-// ================= LOGIN =================
 
 const loginuser = async (req, res) => {
   try {
@@ -63,7 +62,6 @@ const loginuser = async (req, res) => {
   }
 };
 
-// ================= REGISTER =================
 
 const registeruser = async (req, res) => {
   try {
@@ -161,7 +159,6 @@ const registeruser = async (req, res) => {
   }
 };
 
-// ================= VERIFY OTP =================
 
 const verifyOTP = async (req, res) => {
   try {
@@ -215,7 +212,6 @@ const verifyOTP = async (req, res) => {
   }
 };
 
-// ================= RESEND OTP =================
 
 const resendOTP = async (req, res) => {
   try {
