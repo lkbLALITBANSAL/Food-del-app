@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
@@ -17,19 +18,19 @@ const userSchema = new mongoose.Schema(
     },
 
     password: {
-  type: String,
-  default: "",
-},
+      type: String,
+      default: "",
+    },
 
-googleId: {
-  type: String,
-  default: "",
-},
+    googleId: {
+      type: String,
+      default: "",
+    },
 
-picture: {
-  type: String,
-  default: "",
-},
+    picture: {
+      type: String,
+      default: "",
+    },
 
     isVerified: {
       type: Boolean,

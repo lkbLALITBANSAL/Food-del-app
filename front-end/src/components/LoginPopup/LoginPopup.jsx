@@ -1,30 +1,21 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import "./LoginPopup.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
-import { GoogleLogin } from "@react-oauth/google";
 
 const LoginPopup = ({ setshowLogin }) => {
   const { url, settoken } = useContext(StoreContext);
 
   const [currState, setcurrState] = useState("Login");
-
   const [loading, setLoading] = useState(false);
-
   const [showOTP, setShowOTP] = useState(false);
-
   const [otpTimer, setOtpTimer] = useState(60);
-
   const [otp, setOtp] = useState("");
-
   const [showPassword, setShowPassword] = useState(false);
-
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
-
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
-
   const [success, setSuccess] = useState("");
 
   const [data, setData] = useState({
@@ -48,15 +39,10 @@ const LoginPopup = ({ setshowLogin }) => {
 
   const resetForm = () => {
     setShowOTP(false);
-
     setOtp("");
-
     setOtpTimer(60);
-
     setError("");
-
     setSuccess("");
-
     setLoading(false);
 
     setData({
@@ -69,7 +55,6 @@ const LoginPopup = ({ setshowLogin }) => {
 
   const changeState = (state) => {
     setcurrState(state);
-
     resetForm();
   };
 
@@ -109,13 +94,11 @@ const LoginPopup = ({ setshowLogin }) => {
       setError(
         "Password must contain uppercase, lowercase, number and special character."
       );
-
       return false;
     }
 
     if (data.password !== data.confirmPassword) {
       setError("Passwords do not match.");
-
       return false;
     }
 
@@ -149,9 +132,7 @@ const LoginPopup = ({ setshowLogin }) => {
 
         if (response.data.success) {
           setSuccess("OTP has been sent to your email.");
-
           setShowOTP(true);
-
           setOtpTimer(60);
         } else {
           setError(response.data.message);
@@ -166,13 +147,8 @@ const LoginPopup = ({ setshowLogin }) => {
         );
 
         if (response.data.success) {
-          localStorage.setItem(
-            "token",
-            response.data.token
-          );
-
+          localStorage.setItem("token", response.data.token);
           settoken(response.data.token);
-
           setshowLogin(false);
         } else {
           setError(response.data.message);
@@ -180,7 +156,6 @@ const LoginPopup = ({ setshowLogin }) => {
       }
     } catch (error) {
       console.log(error);
-
       setError("Something went wrong.");
     }
 
@@ -196,7 +171,6 @@ const LoginPopup = ({ setshowLogin }) => {
     }
 
     setLoading(true);
-
     setError("");
 
     try {
@@ -209,20 +183,14 @@ const LoginPopup = ({ setshowLogin }) => {
       );
 
       if (response.data.success) {
-        localStorage.setItem(
-          "token",
-          response.data.token
-        );
-
+        localStorage.setItem("token", response.data.token);
         settoken(response.data.token);
-
         setshowLogin(false);
       } else {
         setError(response.data.message);
       }
     } catch (error) {
       console.log(error);
-
       setError("OTP verification failed.");
     }
 
@@ -244,65 +212,28 @@ const LoginPopup = ({ setshowLogin }) => {
 
       if (response.data.success) {
         setSuccess("New OTP sent.");
-
         setOtp("");
-
         setOtpTimer(60);
       } else {
         setError(response.data.message);
       }
     } catch (error) {
       console.log(error);
-
       setError("Unable to resend OTP.");
     }
   };
 
-  const handleGoogleSuccess = async (credentialResponse) => {
-  try {
-    const response = await axios.post(
-      url + "/api/user/google-login",
-      {
-        credential: credentialResponse.credential,
-      }
-    );
-
-    if (response.data.success) {
-      localStorage.setItem("token", response.data.token);
-
-      settoken(response.data.token);
-
-      setshowLogin(false);
-    } else {
-      setError(response.data.message);
-    }
-  } catch (error) {
-    console.log(error);
-
-    setError("Google Login Failed.");
-  }
-};
-
-const handleGoogleError = () => {
-  console.log("Google Login Failed");
-};
   const closePopup = () => {
     resetForm();
-
     setcurrState("Login");
-
     setshowLogin(false);
   };
 
   return (
     <div className="login-popup">
-
       <div className="login-popup-container">
-
         {/* Header */}
-
         <div className="login-popup-header">
-
           <div>
             <h2>
               {showOTP
@@ -326,15 +257,12 @@ const handleGoogleError = () => {
             alt=""
             onClick={closePopup}
           />
-
         </div>
 
         {/* ================= OTP SCREEN ================= */}
 
         {showOTP ? (
-
           <div className="otp-container">
-
             <input
               type="text"
               maxLength="6"
@@ -353,46 +281,26 @@ const handleGoogleError = () => {
               <p className="login-success">{success}</p>
             )}
 
-            <button
-              onClick={verifyOTP}
-              disabled={loading}
-            >
+            <button onClick={verifyOTP} disabled={loading}>
               {loading ? "Verifying..." : "Verify OTP"}
             </button>
 
             <div className="otp-footer">
-
               {otpTimer > 0 ? (
-
                 <p>
-                  Resend OTP in
-                  <span> {otpTimer}s</span>
+                  Resend OTP
+                  <span> in {otpTimer}s</span>
                 </p>
-
               ) : (
-
-                <p
-                  className="resend"
-                  onClick={resendOTP}
-                >
+                <p className="resend" onClick={resendOTP}>
                   Resend OTP
                 </p>
-
               )}
-
             </div>
-
           </div>
-
         ) : (
-
-          <form
-            onSubmit={onLogin}
-            className="login-form"
-          >
-
+          <form onSubmit={onLogin} className="login-form">
             {currState === "Sign up" && (
-
               <input
                 type="text"
                 placeholder="Full Name"
@@ -401,7 +309,6 @@ const handleGoogleError = () => {
                 onChange={onChangeHandler}
                 required
               />
-
             )}
 
             <input
@@ -414,20 +321,15 @@ const handleGoogleError = () => {
             />
 
             <div className="password-box">
-
               <input
-                type={
-                  showPassword
-                    ? "text"
-                    : "password"
-                }
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 name="password"
                 value={data.password}
                 onChange={onChangeHandler}
                 required
               />
-  
+
               <span
                 className="password-toggle"
                 onClick={() =>
@@ -436,18 +338,13 @@ const handleGoogleError = () => {
               >
                 {showPassword ? "Hide" : "Show"}
               </span>
-
             </div>
 
             {currState === "Sign up" && (
-
               <div className="password-box">
-
                 <input
                   type={
-                    showConfirmPassword
-                      ? "text"
-                      : "password"
+                    showConfirmPassword ? "text" : "password"
                   }
                   placeholder="Confirm Password"
                   name="confirmPassword"
@@ -459,30 +356,20 @@ const handleGoogleError = () => {
                 <span
                   className="password-toggle"
                   onClick={() =>
-                    setShowConfirmPassword(
-                      (prev) => !prev
-                    )
+                    setShowConfirmPassword((prev) => !prev)
                   }
                 >
-                  {showConfirmPassword
-                    ? "Hide"
-                    : "Show"}
+                  {showConfirmPassword ? "Hide" : "Show"}
                 </span>
-
               </div>
-
             )}
 
             {error && (
-              <p className="login-error">
-                {error}
-              </p>
+              <p className="login-error">{error}</p>
             )}
 
             {success && (
-              <p className="login-success">
-                {success}
-              </p>
+              <p className="login-success">{success}</p>
             )}
 
             {currState === "Login" && (
@@ -491,10 +378,7 @@ const handleGoogleError = () => {
               </p>
             )}
 
-            <button
-              type="submit"
-              disabled={loading}
-            >
+            <button type="submit" disabled={loading}>
               {loading
                 ? "Please wait..."
                 : currState === "Login"
@@ -502,36 +386,18 @@ const handleGoogleError = () => {
                 : "Create Account"}
             </button>
 
-           <div className="google-divider">
-  <span>OR</span>
-</div>
-
-<GoogleLogin
-  onSuccess={handleGoogleSuccess}
-  onError={handleGoogleError}
-/>
-
             {currState === "Sign up" && (
-
               <div className="login-popup-condition">
-
-                <input
-                  type="checkbox"
-                  required
-                />
+                <input type="checkbox" required />
 
                 <p>
-                  I agree to the Terms &
-                  Conditions and Privacy
+                  I agree to the Terms & Conditions and Privacy
                   Policy.
                 </p>
-
               </div>
-
             )}
 
             <p className="switch-auth">
-
               {currState === "Login"
                 ? "Don't have an account?"
                 : "Already have an account?"}
@@ -539,25 +405,16 @@ const handleGoogleError = () => {
               <span
                 onClick={() =>
                   changeState(
-                    currState === "Login"
-                      ? "Sign up"
-                      : "Login"
+                    currState === "Login" ? "Sign up" : "Login"
                   )
                 }
               >
-                {currState === "Login"
-                  ? " Sign Up"
-                  : " Login"}
+                {currState === "Login" ? " Sign Up" : " Login"}
               </span>
-
             </p>
-
           </form>
-
         )}
-
       </div>
-
     </div>
   );
 };
