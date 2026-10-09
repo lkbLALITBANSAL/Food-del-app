@@ -1,41 +1,45 @@
 
-import React, { useContext, useState } from 'react'
-import './cart.css'
-import { StoreContext } from '../../context/StoreContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useState } from "react";
+import "./cart.css";
+import { StoreContext } from "../../context/StoreContext";
+import { useNavigate } from "react-router-dom";
 
-const Cart = ({setshowLogin}) => {
+const Cart = ({ setshowLogin }) => {
   const {
     carditem,
     food_list,
+    addtocart,
     Removefromcart,
     getTotalAmount,
     url,
     token,
-  } = useContext(StoreContext)
+  } = useContext(StoreContext);
 
-  const navigate = useNavigate()
-  const [loginMessage, setLoginMessage] = useState("")
+  const navigate = useNavigate();
+  const [loginMessage, setLoginMessage] = useState("");
 
   const handleCheckout = () => {
-  if (!token) {
-    setLoginMessage("Please log in to continue with checkout.");
-    setshowLogin(true);
-    return;
-  }
+    if (!token) {
+      setLoginMessage("Please log in to continue with checkout.");
+      setshowLogin(true);
+      return;
+    }
 
-  if (getTotalAmount() === 0) {
-    setLoginMessage("Your cart is empty. Add some food before checkout.");
-    return;
-  }
+    if (getTotalAmount() === 0) {
+      setLoginMessage("Your cart is empty. Add some food before checkout.");
+      return;
+    }
 
-  setLoginMessage("");
-  navigate('/order');
-};
+    setLoginMessage("");
+    navigate("/order");
+  };
+
+  const subtotal = getTotalAmount();
+  const deliveryFee = subtotal === 0 ? 0 : 2;
+  const total = subtotal + deliveryFee;
 
   return (
     <div className="cart">
-
       {loginMessage && (
         <p className="login-message" role="status">
           {loginMessage}
@@ -49,37 +53,69 @@ const Cart = ({setshowLogin}) => {
           <p>Price</p>
           <p>Quantity</p>
           <p>Total</p>
-          <p>Remove</p>
         </div>
 
-        <br />
         <hr />
 
         {food_list.map((item) => {
-          if (carditem[item._id] > 0) {
-            return (
-              <React.Fragment key={item._id}>
-                <div className="card_item_title card_items_item">
-                  <img
-                    src={url + '/images/' + item.image}
-                    alt={item.name}
-                  />
+          const quantity = carditem[item._id] || 0;
 
-                  <p>{item.name}</p>
-                  <p>${item.price}</p>
-                  <p>{carditem[item._id]}</p>
-                  <p>{item.price * carditem[item._id]}</p>
+          if (quantity <= 0) return null;
 
-                  <p onClick={() => Removefromcart(item._id)}>X</p>
+          return (
+            <React.Fragment key={item._id}>
+              <div className="card_item_title card_items_item">
+                <img
+                  src={`${url}/images/${item.image}`}
+                  alt={item.name}
+                />
+
+                <p className="cart-item-name">{item.name}</p>
+
+                <p className="cart-item-price">
+                  ${item.price}
+                </p>
+
+                <div className="quantity-control">
+                  <button
+                    type="button"
+                    className="quantity-btn minus-btn"
+                    onClick={() => Removefromcart(item._id)}
+                    disabled={quantity <= 0}
+                    aria-label={`Decrease ${item.name} quantity`}
+                  >
+                    −
+                  </button>
+
+                  <span className="quantity-number">
+                    {quantity}
+                  </span>
+
+                  <button
+                    type="button"
+                    className="quantity-btn plus-btn"
+                    onClick={() => addtocart(item._id)}
+                    aria-label={`Increase ${item.name} quantity`}
+                  >
+                    +
+                  </button>
                 </div>
 
-                <hr />
-              </React.Fragment>
-            )
-          }
+                <p className="cart-item-total">
+                  ${(item.price * quantity).toFixed(2)}
+                </p>
+              </div>
 
-          return null
+              <hr />
+            </React.Fragment>
+          );
         })}
+
+        {subtotal === 0 && (
+          <p className="empty-cart">
+            Your cart is empty. Add some delicious food!
+          </p>
+        )}
       </div>
 
       <div className="cart-bottem">
@@ -89,27 +125,28 @@ const Cart = ({setshowLogin}) => {
           <div>
             <div className="cart-total-details">
               <p>Subtotal</p>
-              <p>{getTotalAmount()}</p>
+              <p>${subtotal.toFixed(2)}</p>
             </div>
 
             <hr />
 
             <div className="cart-total-details">
               <p>Delivery fee</p>
-              <p>{getTotalAmount() === 0 ? 0 : 2}</p>
+              <p>${deliveryFee.toFixed(2)}</p>
             </div>
 
             <hr />
 
-            <div className="cart-total-details">
+            <div className="cart-total-details final-total">
               <p>Total</p>
-              <p>
-                {getTotalAmount() === 0 ? 0 : getTotalAmount() + 2}
-              </p>
+              <p>${total.toFixed(2)}</p>
             </div>
           </div>
 
-          <button onClick={handleCheckout}>
+          <button
+            className="checkout-btn"
+            onClick={handleCheckout}
+          >
             Proceed to checkout
           </button>
         </div>
@@ -125,14 +162,13 @@ const Cart = ({setshowLogin}) => {
                 placeholder="Enter promo code"
               />
 
-              <button>Submit</button>
+              <button type="button">Submit</button>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
-export default Cart
+export default Cart;
