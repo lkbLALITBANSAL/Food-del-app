@@ -1,15 +1,28 @@
+
 import express from "express"
 
 import authmiddleware from "../Middlewares/Auth.js"
-import { listOrders, placeOrder, updateStatus, userOrders, verifyOrder } from "../controllers/orderController.js";
+import adminAuth from "../Middlewares/adminAuth.js"
 
-const orderRouter=express.Router();
+import {
+  listOrders,
+  placeOrder,
+  updateStatus,
+  userOrders,
+  verifyOrder
+} from "../controllers/orderController.js"
 
-//here authmiddleware is used to convert  token to user id
-orderRouter.post("/place",authmiddleware,placeOrder)
-orderRouter.post("/verify",verifyOrder)
-orderRouter.post("/userorders",authmiddleware,userOrders)
-orderRouter.get("/list",listOrders)
-orderRouter.post("/status",updateStatus)
+const orderRouter = express.Router()
 
-export default orderRouter;
+// Customer authentication
+orderRouter.post("/place", authmiddleware, placeOrder)
+orderRouter.post("/userorders", authmiddleware, userOrders)
+
+// Payment callback/result endpoint
+orderRouter.post("/verify", verifyOrder)
+
+// Admin only
+orderRouter.get("/list", adminAuth, listOrders)
+orderRouter.post("/status", adminAuth, updateStatus)
+
+export default orderRouter

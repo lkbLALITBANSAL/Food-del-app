@@ -1,28 +1,40 @@
+
 import express from 'express'
-import { addFood ,foodlist,removefood} from '../controllers/foodController.js'
+import {
+  addFood,
+  foodlist,
+  removefood
+} from '../controllers/foodController.js'
 import multer from 'multer'
+import adminAuth from '../Middlewares/adminAuth.js'
 
-const foodRouter=express.Router();
+const foodRouter = express.Router()
 
-//Image storage engine using multer
-//here cb=>callback
-//here files will be saved in uploads folder, using date.now() for unique filename everytime
 const storage = multer.diskStorage({
-    destination: "uploads",
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`)
-    }
+  destination: "uploads",
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
 })
 
+const upload = multer({ storage: storage })
 
-//middleware
-const upload=multer({storage:storage})
+// Public: customers can browse food
+foodRouter.get("/list", foodlist)
 
-foodRouter.post("/add",upload.single("image"),addFood);
-//to use this router => http://localhost:/api/food/add
+// Admin only: add food
+foodRouter.post(
+  "/add",
+  adminAuth,
+  upload.single("image"),
+  addFood
+)
 
-foodRouter.get("/list",foodlist)
-foodRouter.post("/remove",removefood)
- 
+// Admin only: remove food
+foodRouter.post(
+  "/remove",
+  adminAuth,
+  removefood
+)
 
-export default foodRouter;
+export default foodRouter

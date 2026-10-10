@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 
 const url =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:4000";
+  import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 function AdminLogin() {
   const navigate = useNavigate();
 
   const [isSignup, setIsSignup] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -32,6 +32,7 @@ function AdminLogin() {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+
     setError("");
     setLoading(true);
 
@@ -40,32 +41,48 @@ function AdminLogin() {
         ? "/api/admin/signup"
         : "/api/admin/login";
 
+      // Send only the fields required by each endpoint.
+      const payload = isSignup
+        ? {
+            name: form.name.trim(),
+            email: form.email.trim(),
+            password: form.password,
+            setupKey: form.setupKey
+          }
+        : {
+            email: form.email.trim(),
+            password: form.password
+          };
+
       const response = await axios.post(
-        url + endpoint,
-        form
+        `${url}${endpoint}`,
+        payload
       );
 
-      if (response.data.success) {
-        localStorage.setItem(
-          "adminToken",
-          response.data.token
-        );
-
-        localStorage.setItem(
-          "adminInfo",
-          JSON.stringify(response.data.admin)
-        );
-
-        navigate("/");
-      } else {
+      if (!response.data.success) {
         setError(
           response.data.message || "Something went wrong."
         );
+        return;
       }
+
+      // Store the admin authentication token.
+      localStorage.setItem(
+        "adminToken",
+        response.data.token
+      );
+
+      localStorage.setItem(
+        "adminInfo",
+        JSON.stringify(response.data.admin)
+      );
+
+      // Open the dashboard after successful authentication.
+      navigate("/list", { replace: true });
     } catch (err) {
       setError(
         err.response?.data?.message ||
-        "Unable to connect to the server."
+          "Unable to connect to the server. Please try again."
       );
     } finally {
       setLoading(false);
@@ -75,6 +92,7 @@ function AdminLogin() {
   const changeMode = () => {
     setIsSignup((prev) => !prev);
     setError("");
+
     setForm({
       name: "",
       email: "",
@@ -85,7 +103,10 @@ function AdminLogin() {
 
   return (
     <div className="admin-auth">
-      <form onSubmit={onSubmitHandler} className="auth-card">
+      <form
+        onSubmit={onSubmitHandler}
+        className="auth-card"
+      >
         <h2>
           {isSignup ? "Create Admin" : "Admin Login"}
         </h2>
@@ -100,9 +121,11 @@ function AdminLogin() {
           <>
             <input
               name="name"
+              type="text"
               placeholder="Full name"
               value={form.name}
               onChange={onChangeHandler}
+              autoComplete="name"
               required
             />
 
@@ -137,17 +160,22 @@ function AdminLogin() {
           autoComplete={
             isSignup ? "new-password" : "current-password"
           }
+          minLength={isSignup ? 8 : undefined}
           required
         />
 
-        {error && <p className="auth-error">{error}</p>}
+        {error && (
+          <p className="auth-error" role="alert">
+            {error}
+          </p>
+        )}
 
         <button type="submit" disabled={loading}>
           {loading
             ? "Please wait..."
             : isSignup
-            ? "Create Admin Account"
-            : "Login"}
+              ? "Create Admin Account"
+              : "Login"}
         </button>
 
         <p className="auth-switch">
@@ -159,6 +187,7 @@ function AdminLogin() {
             type="button"
             onClick={changeMode}
             className="text-button"
+            disabled={loading}
           >
             {isSignup ? "Login" : "Initial signup"}
           </button>
