@@ -1,13 +1,26 @@
 import React from 'react'
 import './Navbar.css'
 import { assets } from '../../assets/assets'
+import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+
+  const logout = () => {
+    localStorage.removeItem('adminToken')
+    localStorage.removeItem('adminInfo')
+    navigate('/login', { replace: true })
+  }
+
   return (
     <div className='navbar'>
 
       <div className="navbar-left">
-        <img src={assets.logo} alt="logo" className="logo" />
+        <img
+          src={assets.logo}
+          alt="logo"
+          className="logo"
+        />
       </div>
 
       <div className="navbar-center">
@@ -16,9 +29,22 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-right">
+
         <div className="profile-image">
-          <img className='admin-photo' src={assets.user} alt="admin" />
+          <img
+            className='admin-photo'
+            src={assets.user}
+            alt="admin"
+          />
         </div>
+
+        <button
+          className="logout-btn"
+          onClick={logout}
+        >
+          Logout
+        </button>
+
       </div>
 
     </div>

@@ -8,6 +8,8 @@ import foodRouter from "./routes/foodRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import cartRouter from "./routes/cartRoutes.js";
 import orderRouter from "./routes/orderRoutes.js";
+import adminRouter from "./routes/adminRoute.js";
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -32,11 +34,15 @@ app.use(
 
 
 // Routes
+
 app.use("/api/food", foodRouter);
 app.use("/images", express.static("uploads"));
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
+
+app.use("/api/admin", adminRouter);
+
 
 app.get("/", (req, res) => {
   res.send("API Working");
